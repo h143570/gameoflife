@@ -1,0 +1,42 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style/canvas.css">
+<body>
+<div id="canvas"></div>
+<script type="text/javascript" src="js/CellUtils.js"></script>
+<script type="text/javascript" src="js/Cell.js"></script>
+<script type="text/javascript" src="js/Game.js"></script>
+<script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+<script type="text/javascript">
+  var game = new Game();
+  game.onAfterTick(render);
+  game.onAfterCreateCell(render);
+  function render(cells) {
+    var $canvas = $('#canvas'),
+      size = 4;
+    $('.cell').remove();
+    cells.forEach(function(cell) {
+      $('<div class="cell"></div>').css({top:cell.y * size, left:cell.x * size}).appendTo($canvas);
+    });
+  }
+  game.createCell(1, 0);
+  game.createCell(2, 1);
+  game.createCell(0, 2);
+  game.createCell(1, 2);
+  game.createCell(2, 2);
+
+  game.createCell(10, 10);
+  game.createCell(11, 10);
+  game.createCell(12, 10);
+  game.createCell(14, 10);
+  game.createCell(10, 11);
+  game.createCell(13, 12);
+  game.createCell(14, 12);
+  game.createCell(11, 13);
+  game.createCell(12, 13);
+  game.createCell(14, 13);
+  game.createCell(10, 14);
+  game.createCell(12, 14);
+  game.createCell(14, 14);
+  setInterval(function() {game.tick()}, 100);
+</script>

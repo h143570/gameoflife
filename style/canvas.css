@@ -1,0 +1,13 @@
+#canvas {
+  position: relative;
+  top: 50%;
+  left: 50%;
+}
+.cell {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: black;
+  margin: 0;
+  padding: 0;
+}
