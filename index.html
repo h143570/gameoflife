@@ -3,28 +3,95 @@
   <link rel="stylesheet" type="text/css" href="style/canvas.css">
 <body>
 <div id="canvas"></div>
+<div id="status">life is on hold</div>
+<div id="howto">
+  <dl>
+    <dt>r</dt><dd>resume evolution</dd>
+    <dt>p</dt><dd>stop the world</dd>
+    <dt>c</dt><dd>big bang</dd>
+    <dt>m</dt><dd>push the world</dd>
+    <dt>n</dt><dd>hold your horses</dd>
+    <dt>click</dt><dd>spawn cell</dd>
+  </dl>
+</div>
 <script type="text/javascript" src="js/CellUtils.js"></script>
 <script type="text/javascript" src="js/Cell.js"></script>
 <script type="text/javascript" src="js/Game.js"></script>
 <script type="text/javascript" src="lib/jquery-2.0.3.js"></script>
 <script type="text/javascript">
-  var game = new Game();
+  var $canvas = $('#canvas'),
+      $status = $('#status'),
+      size = 4,
+      game = new Game();
   game.onAfterTick(render);
   game.onAfterCreateCell(render);
   function render(cells) {
-    var $canvas = $('#canvas'),
-      size = 4;
     $('.cell').remove();
     cells.forEach(function(cell) {
       $('<div class="cell"></div>').css({top:cell.y * size, left:cell.x * size}).appendTo($canvas);
     });
   }
+  $('body').click(function(e) {
+    var co = $canvas.offset();
+    var coords = {
+      x: Math.floor((e.clientX - co.left) / size),
+      y: Math.floor((e.clientY - co.top) / size)
+    };
+    game.createCell(coords.x, coords.y);
+  }).keypress(function(e) {
+    switch(e.which) {
+      case 112: //p
+        pauseGame();
+        break;
+      case 114: //r
+        resumeGame();
+        break;
+      case 99: //c
+        clearCanvas();
+        break;
+      case 109: //m
+        speedUpGame();
+        break;
+      case 110: //n
+        slowDownGame();
+        break;
+    }
+  });
+  var interval,
+      speed = 200;
+  function pauseGame() {
+    if (interval) {
+      clearInterval(interval);
+    }
+    $status.text('world has come to a hold..');
+  }
+  function resumeGame() {
+    pauseGame();
+    interval = setInterval(function() {game.tick()}, speed);
+    $status.text('generations ticking at ' + Math.round(1000/speed*100)/100 + '/ sec');
+  }
+  function clearCanvas() {
+    game.reset();
+  }
+  function speedUpGame() {
+    pauseGame();
+    speed = Math.max(50, speed - 50);
+    resumeGame();
+  }
+  function slowDownGame() {
+    pauseGame();
+    speed = Math.min(5000, speed + 50);
+    resumeGame();
+  }
+
+  /*
   game.createCell(1, 0);
   game.createCell(2, 1);
   game.createCell(0, 2);
   game.createCell(1, 2);
   game.createCell(2, 2);
-
+  */
+  
   game.createCell(10, 10);
   game.createCell(11, 10);
   game.createCell(12, 10);
@@ -38,5 +105,6 @@
   game.createCell(10, 14);
   game.createCell(12, 14);
   game.createCell(14, 14);
-  setInterval(function() {game.tick()}, 100);
+  
+  
 </script>

@@ -104,6 +104,13 @@ describe("A display registered on a game", function() {
     expect(display.call.length).toEqual(1);
   });
 });
-
+describe("A game with one living cell", function() {
+  var game = new Game();
+  game.createCell(1, 1);
+  it("becomes empty after reset", function() {
+    game.reset();
+    expectGame(game);
+  });
+});
 })();
 
