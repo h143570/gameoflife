@@ -2,7 +2,7 @@
 <head>
   <link rel="stylesheet" type="text/css" href="style/canvas.css">
 <body>
-<div id="canvas"></div>
+<canvas id="canvas" width="1200" height="600"></canvas>
 <div id="status">life is on hold</div>
 <div id="howto">
   <dl>
@@ -21,14 +21,17 @@
 <script type="text/javascript">
   var $canvas = $('#canvas'),
       $status = $('#status'),
+      ctx = $canvas.get(0).getContext("2d"),
       size = 4,
       game = new Game();
   game.onAfterTick(render);
   game.onAfterCreateCell(render);
   function render(cells) {
-    $('.cell').remove();
+	ctx.fillStyle="#ffffff";
+	ctx.fillRect(0,0,1200,600);    
+	ctx.fillStyle="#000000";
     cells.forEach(function(cell) {
-      $('<div class="cell"></div>').css({top:cell.y * size, left:cell.x * size}).appendTo($canvas);
+      ctx.fillRect(cell.x * size, cell.y * size, 3, 3);
     });
   }
   $('body').click(function(e) {
@@ -92,19 +95,19 @@
   game.createCell(2, 2);
   */
   
-  game.createCell(10, 10);
-  game.createCell(11, 10);
-  game.createCell(12, 10);
-  game.createCell(14, 10);
-  game.createCell(10, 11);
-  game.createCell(13, 12);
-  game.createCell(14, 12);
-  game.createCell(11, 13);
-  game.createCell(12, 13);
-  game.createCell(14, 13);
-  game.createCell(10, 14);
-  game.createCell(12, 14);
-  game.createCell(14, 14);
+  game.createCell(150, 80);
+  game.createCell(151, 80);
+  game.createCell(152, 80);
+  game.createCell(154, 80);
+  game.createCell(150, 81);
+  game.createCell(153, 82);
+  game.createCell(154, 82);
+  game.createCell(151, 83);
+  game.createCell(152, 83);
+  game.createCell(154, 83);
+  game.createCell(150, 84);
+  game.createCell(152, 84);
+  game.createCell(154, 84);
   
   
 </script>
